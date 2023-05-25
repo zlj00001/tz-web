@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import NavBar from "../components/NavBar.vue";
 import {useStore} from "vuex";
+import * as $store from "vue-tsc/out/shared";
 const store = useStore();
 </script>
 
