@@ -65,9 +65,9 @@ const onSubmit = async (values: UserLoginType) => {
 
     userID.value = res.data.data.username;
     store.commit('updateUserID',userID.value);
-    await router.push({
-      path:"/",
-    })
+    // await router.push({
+    //   path:"/",
+    // })
     // window.location.href = redirectUrl;
   }
   console.log(res)
