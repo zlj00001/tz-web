@@ -48,6 +48,7 @@ const onClickLeft = () => history.back();
 const username = ref('');
 const password = ref('');
 const route = useRoute();
+const router = useRouter();
 
 
 const userID = ref(''); // User ID
@@ -60,12 +61,14 @@ const onSubmit = async (values: UserLoginType) => {
   if (res.data.code === 0) {
     setCurrentUserState(res.data.data);
     // 跳转到之前的页面
-    const redirectUrl = route.query?.redirect as string ?? '/';
+    // const redirectUrl = route.query?.redirect as string ?? '/';
 
     userID.value = res.data.data.username;
     store.commit('updateUserID',userID.value);
-
-    window.location.href = redirectUrl;
+    await router.push({
+      path:"/",
+    })
+    // window.location.href = redirectUrl;
   }
   console.log(res)
 
