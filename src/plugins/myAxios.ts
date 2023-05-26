@@ -2,8 +2,8 @@ import axios from "axios";
 import qs from 'qs';
 
 const myAxios = axios.create({
-    // baseURL: "https://tz-33994-7-1317098085.sh.run.tcloudbase.com/api",
-    baseURL: "http://localhost:7529/api",
+    baseURL: "https://tz-33994-7-1317098085.sh.run.tcloudbase.com/api",
+    // baseURL: "http://localhost:7529/api",
 })
 
 
