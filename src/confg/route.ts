@@ -14,14 +14,14 @@ import TeamDetailView from "../view/TeamDetailView.vue";
 import TeamRecommendView from "../view/TeamRecommendView.vue";
 import TeamSearchView from "../view/TeamSearchView.vue";
 import TeamJoinEncryption from "../view/TeamJoinEncryptionView.vue";
-import ChatListView from "../view/ChatListView.vue";
+import MessageListView from "../view/MessageListView.vue";
 import UserDetailView from "../view/UserDetailView.vue";
 import ChatView from "../view/ChatView.vue";
 
 const routes = [
     {
         path: "/",
-        component: IndexView,
+        component: MessageListView,
     },
     {
         path: '/home',
@@ -32,8 +32,8 @@ const routes = [
         component: ChatView
     },
     {
-        path: '/user/chatList',
-        component: ChatListView
+        path: '/messageList',
+        component: MessageListView
     },
     {
         path: '/team',

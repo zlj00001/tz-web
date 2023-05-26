@@ -29,9 +29,6 @@ import {onMounted, onUnmounted, ref} from "vue";
 import { useRouter } from 'vue-router';
 import store from "../store";
 import myAxios from "../plugins/myAxios";
-import qs from 'qs';
-import {setCurrentUserState} from "../states/user";
-import {UserType} from "../models/user";
 import UserCardList from "../components/UserCardList.vue";
 
 const value = ref('');

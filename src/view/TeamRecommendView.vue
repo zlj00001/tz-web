@@ -40,7 +40,11 @@ const route = useRoute();
 
 
 onMounted(async ()=>{
-  const publicTeamRes = await myAxios.get("/team/list");
+  const publicTeamRes = await myAxios.get("/team/list",{
+    params:{
+      status:0,
+    }
+  });
   if(publicTeamRes.data.code === 0){
     for(let i = 0; i < publicTeamRes.data.data.length; i++){
       publicTeams.value.push(publicTeamRes.data.data[i]);

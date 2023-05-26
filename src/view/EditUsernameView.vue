@@ -15,20 +15,33 @@
 </template>
 
 <script setup lang="ts">
-import {showToast} from "vant";
 import {onMounted, onUnmounted, ref} from "vue";
 import store from "../store";
+import {useRoute} from "vue-router";
+import myAxios from "../plugins/myAxios";
+const route = useRoute();
+const username = ref();
+
 onMounted(()=>{
+  username.value = route.query.username;
   store.commit('updateNav',false);
 })
 onUnmounted(()=>{
   store.commit('updateNav',true);
 })
 
-const username = ref('');
 
 const onClickLeft = () => history.back();
-const onClickRight = () => showToast('按钮');
+const onClickRight = async () => {
+  if(username.value != null && username.value.length > 0){
+    const res = await myAxios.post("/user/update/my",{
+      username:username.value
+    });
+    if(res.data.code === 0){
+      onClickLeft();
+    }
+  }
+};
 
 </script>
 <style scoped>

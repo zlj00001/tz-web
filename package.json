@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tencentcloud/call-uikit-vue": "^2.1.0",
+    "@tencentcloud/chat-uikit-vue": "^1.4.3",
     "@types/vue": "^2.0.0",
     "axios": "^1.3.4",
     "less": "^4.1.3",

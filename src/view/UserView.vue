@@ -1,7 +1,7 @@
 <template>
   <van-nav-bar title="个人信息" left-arrow>
     <template #right>
-      <van-icon name="envelop-o" size="2em" @click="toChatList" />
+<!--      <van-icon name="envelop-o" size="2em" @click="toChatList" />-->
     </template>
   </van-nav-bar>
   <van-cell-group>
@@ -9,7 +9,7 @@
       <img style="height: 10vh" :src="user.userAvatar">
     </van-cell>
     <van-cell title="账号" is-link :value="user.userAccount" />
-    <van-cell title="昵称" is-link to="/user/edit/name" :value="user.username"/>
+    <van-cell title="昵称" is-link :to="'/user/edit/name?username='+user.username" :value="user.username"/>
     <van-cell title="性别" is-link v-if="user.gender == 0" value="男" />
     <van-cell title="性别" is-link v-else-if="user.gender == 1" value="女" />
     <van-cell title="性别" is-link v-else value="保密" />
@@ -56,23 +56,13 @@ const updateTag = ()=>{
 
 }
 
-const toChatList = () =>{
-  router.push({
-    path:'/user/chatList',
-    query:{
-      userAccount: user.value.userAccount,
-    }
-  })
-}
-
 onMounted(async ()=>{
   user.value = await getCurrentUser();
   user.value.tags = JSON.parse(user.value.tags);
 })
 
 const login = ()=>{
-  const redirectUrl = window.location.href;
-  window.location.href = `/user/login?redirect=${redirectUrl}`
+  window.location.href = "#/user/login";
 }
 
 const logout = async () =>{
