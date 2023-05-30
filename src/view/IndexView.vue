@@ -1,10 +1,16 @@
 <template>
   <van-nav-bar title="推荐" left-arrow fixed>
     <template #right>
-      <van-icon name="search" size="18"  @click="toSearch"/>
+      <van-icon name="search" size="18" @click="toSearch"/>
     </template>
   </van-nav-bar>
-<div style="height: 8vh"></div>
+  <div style="height: 8vh"></div>
+  <van-cell center title="相似匹配">
+    <template #right-icon>
+      <van-switch v-model="checked" size="3vh"/>
+    </template>
+  </van-cell>
+
   <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
     <van-list
         v-model:loading="loading"
@@ -22,7 +28,7 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import myAxios from "../plugins/myAxios";
 import {stringify} from "qs";
 import UserCardList from "../components/UserCardList.vue";
@@ -30,45 +36,66 @@ import {setCurrentUserState} from "../states/user";
 
 const router = useRouter();
 const store = useStore();
-const currentPage =ref(1);
+const currentPage = ref(1);
 const totalPage = ref(1);
 const data = ref();
-const list:any = ref([]);
+const list: any = ref([]);
 const loading = ref(false);
 const finished = ref(false);
 const refreshing = ref(false);
 
+const checked = ref(false);
 const toSearch = () => {
   // store.commit('updateNav');
   router.push({
-    path:'/search'
+    path: '/search'
   })
 }
 
-const refreshPage = async ()=>{
-  const res = await myAxios.get("/user/page/list",{
-    params:{
+watch([checked], async (newvalue, oldvalue)=>{
+  if(newvalue[0] === true){
+    const matchRes = await myAxios.get("/user/match",{
+      params:{
+        num:10,
+      }
+    });
+    console.log(matchRes.data.data)
+    list.value = [];
+    list.value.push(matchRes.data.data)
+  }else {
+    await refreshPage();
+  }
+});
+
+const refreshPage = async () => {
+  const res = await myAxios.get("/user/page/list", {
+    params: {
       pageSize: 10,
       current: currentPage.value,
     }
   });
   data.value = res.data.data.records;
   totalPage.value = res.data.data.total;
+  list.value = [];
   list.value.push(res.data.data.records)
 }
-onMounted( async ()=>{
+onMounted(async () => {
   await refreshPage();
 })
 
 const onLoad = () => {
   if (refreshing.value) {
-    list.value = [];
+    if(checked.value === false){
+      list.value = [];
+    }
     refreshing.value = false;
   }
   currentPage.value = currentPage.value + 1;
   currentPage.value = parseInt(JSON.stringify(Math.random() * (totalPage.value / 10) + 1));
   // console.log(parseInt(JSON.stringify(Math.random() * (totalPage.value) + 1)));
-  refreshPage();
+  if(checked.value === false){
+    refreshPage();
+  }
   loading.value = false;
   finished.value = true;
 };
